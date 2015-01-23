@@ -12,13 +12,11 @@ Vagrant.configure(2) do |config|
   
   config.vm.define :rails do |rails_config|
     rails_config.vm.network :private_network, :ip => '10.20.1.2'
-    rails_config.vm.provision :hosts
   end
 
 
   config.vm.define :db do |db_config|
     db_config.vm.network :private_network, :ip => '10.20.1.3'
-    db_config.vm.provision :hosts
   end
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
