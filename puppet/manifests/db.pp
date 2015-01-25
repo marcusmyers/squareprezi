@@ -4,7 +4,7 @@ node db {
     require => Exec['AptUpdate'],
   }
 
-  exec { 'AptUpate':
+  exec { 'AptUpdate':
     command => '/usr/bin/apt-get update',
   }
 }
