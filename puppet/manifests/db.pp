@@ -5,6 +5,6 @@ node db {
   }
 
   exec { 'AptUpate':
-    command => 'apt-get update',
+    command => '/usr/bin/apt-get update',
   }
 }
