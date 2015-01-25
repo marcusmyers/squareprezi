@@ -18,7 +18,7 @@ Vagrant.configure(2) do |config|
   config.vm.define :db do |db_config|
     db_config.vm.network :private_network, :ip => '10.20.1.3'
 
-    db_config.provision :puppet do |dbpuppet|
+    db_config.vm.provision :puppet do |dbpuppet|
       dbpuppet.manifests_path = "puppet/manifests"
       dbpuppet.module_path = "puppet/modules"
       dbpuppet.manifest_file = "mysql.pp"
