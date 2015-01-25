@@ -1,10 +1,12 @@
 node db {
-  class { '::mysql::server':
-    root_password   => 'str0ngp4ssW0r6!',
-    require => Exec['AptUpdate'],
+
+  class { 'apt':
+    always_apt_update => true,
   }
 
-  exec { 'AptUpdate':
-    command => '/usr/bin/apt-get update',
+  class { '::mysql::server':
+    root_password   => 'str0ngp4ssW0r6!',
+    require => Class['apt'],
   }
+
 }
