@@ -26,6 +26,7 @@ Vagrant.configure(2) do |config|
     rails_config.vm.hostname = "rails"
 
     rails_config.vm.synced_folder '.', '/vagrant', type: 'nfs'      
+    rails_config.vm.synced_folder './code', '/home/vagrant/code', type: 'nfs'
 
     rails_config.vm.provision :puppet do |rpuppet|
       rpuppet.manifests_path = "puppet/manifests"
