@@ -1,5 +1,5 @@
-class profiles::vrbenv ( $build='2.0.0-p247', $gems=[] ) inherits profiles {
-  class { 'rbenv': }
+class profiles::rbenv ( $build='2.0.0-p576', $gems=[] ) inherits profiles {
+  class { '::rbenv': }
   rbenv::plugin { 'sstephenson/ruby-build': }
   rbenv::build { $build: global => true }
 

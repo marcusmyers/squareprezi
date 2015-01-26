@@ -1,5 +1,5 @@
 class profiles::nodejs ( $version='stable' ) {
-  class { 'nodejs':
+  class { '::nodejs':
     version => "${version}",
   }
 }

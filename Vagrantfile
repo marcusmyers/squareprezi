@@ -14,31 +14,45 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-    config.vm.box = "ubuntu/trusty64"
-  
-    config.vm.define :rails do |rails_config|
-      rails_config.vm.network :private_network, :ip => '10.20.1.2'
-      rails_config.vm.hostname = "rails"
+  config.vm.box = "ubuntu/trusty64"
 
-#    rails_config.vm.provision :shell, path:  "aptupdate.sh"
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 2048
+    v.cpus = 2
+  end  
 
-      rails_config.vm.provision :puppet do |rpuppet|
-        rpuppet.manifests_path = "puppet/manifests"
-        rpuppet.module_path = "puppet/modules"
-        rpuppet.manifest_file = "rails.pp" 
-      end
+  config.vm.define :rails do |rails_config|
+    rails_config.vm.network :private_network, :ip => '10.20.1.2'
+    rails_config.vm.hostname = "rails"
+      
+    #rails_config.vm.provider "virtualbox" do |v|
+    #  v.memory = 2048
+    #  v.cpus = 2
+    #end
+
+    rails_config.vm.provision :puppet do |rpuppet|
+      rpuppet.manifests_path = "puppet/manifests"
+      rpuppet.module_path = "puppet/modules"
+      rpuppet.manifest_file = "rails.pp" 
     end
+  end
 
 
-    config.vm.define :db do |db_config|
-      db_config.vm.network :private_network, :ip => '10.20.1.3'
-      db_config.vm.hostname = "db"
-      db_config.vm.provision :puppet do |dbpuppet|
-        dbpuppet.manifests_path = "puppet/manifests"
-        dbpuppet.module_path = "puppet/modules"
-        dbpuppet.manifest_file = "db.pp"
-      end 
-    end
+  config.vm.define :db do |db_config|
+    db_config.vm.network :private_network, :ip => '10.20.1.3'
+    db_config.vm.hostname = "db"
+
+ #     db_config.vm.provider "virtualbox" do |v|
+ #       v.memory = 2048
+ #       v.cpus = 2
+ #     end
+
+    db_config.vm.provision :puppet do |dbpuppet|
+      dbpuppet.manifests_path = "puppet/manifests"
+      dbpuppet.module_path = "puppet/modules"
+      dbpuppet.manifest_file = "db.pp"
+    end 
+  end
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
   # `vagrant box outdated`. This is not recommended.
@@ -73,7 +87,8 @@ Vagrant.configure(2) do |config|
   #   vb.gui = true
   #
   #   # Customize the amount of memory on the VM:
-  #   vb.memory = "1024"
+  #   vb.memory = 1024
+  #   vb.cpus = 2
   # end
   #
   # View the documentation for the provider you are using for more
