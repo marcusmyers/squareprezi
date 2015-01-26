@@ -11,5 +11,4 @@ node rails {
 
   rbenv::plugin { 'sstephenson/ruby-build': }
   rbenv::build { '2.0.0-p576': global => true }
-  rbenv::gem { 'bundler': ruby_version => '2.0.0-p576' }
 }
