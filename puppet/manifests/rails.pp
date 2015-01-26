@@ -7,7 +7,9 @@ node rails {
     require => Class['apt'],
   }
 
-  class { 'rbenv': }
+  class { 'rbenv': 
+    require => Class['::mysql::client'],
+  }
 
   rbenv::plugin { 'sstephenson/ruby-build': }
   rbenv::build { '2.0.0-p576': global => true }
