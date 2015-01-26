@@ -6,5 +6,4 @@ class profiles::vrbenv ( $build='2.0.0-p247', $gems=[] ) inherits profiles {
   if (count($gems) > 0) {
     rbenv::gem { $gems: ruby_version => "${build}" }
   }
-
 }
