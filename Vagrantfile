@@ -6,40 +6,39 @@ Vagrant.configure(2) do |config|
   # vagrant plugin install vagrant-cachier
   # https://github.com/fgrehm/vagrant-cachier 
   if Vagrant.has_plugin?("vagrant-cachier")
-    config.cache.auto_detect = true
+    config.cache.scope = :box
   end
-
   # The most common configuration options are documented and commented below.
   # For a complete reference, please see the online documentation at
   # https://docs.vagrantup.com.
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "ubuntu/trusty64"
+    config.vm.box = "ubuntu/trusty64"
   
-  config.vm.define :rails do |rails_config|
-    rails_config.vm.network :private_network, :ip => '10.20.1.2'
-    rails_config.vm.hostname = "rails"
+    config.vm.define :rails do |rails_config|
+      rails_config.vm.network :private_network, :ip => '10.20.1.2'
+      rails_config.vm.hostname = "rails"
 
 #    rails_config.vm.provision :shell, path:  "aptupdate.sh"
 
-    rails_config.vm.provision :puppet do |rpuppet|
-      rpuppet.manifests_path = "puppet/manifests"
-      rpuppet.module_path = "puppet/modules"
-      rpuppet.manifest_file = "rails.pp" 
+      rails_config.vm.provision :puppet do |rpuppet|
+        rpuppet.manifests_path = "puppet/manifests"
+        rpuppet.module_path = "puppet/modules"
+        rpuppet.manifest_file = "rails.pp" 
+      end
     end
-  end
 
 
-  config.vm.define :db do |db_config|
-    db_config.vm.network :private_network, :ip => '10.20.1.3'
-    db_config.vm.hostname = "db"
-    db_config.vm.provision :puppet do |dbpuppet|
-      dbpuppet.manifests_path = "puppet/manifests"
-      dbpuppet.module_path = "puppet/modules"
-      dbpuppet.manifest_file = "db.pp"
-    end 
-  end
+    config.vm.define :db do |db_config|
+      db_config.vm.network :private_network, :ip => '10.20.1.3'
+      db_config.vm.hostname = "db"
+      db_config.vm.provision :puppet do |dbpuppet|
+        dbpuppet.manifests_path = "puppet/manifests"
+        dbpuppet.module_path = "puppet/modules"
+        dbpuppet.manifest_file = "db.pp"
+      end 
+    end
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
   # `vagrant box outdated`. This is not recommended.
