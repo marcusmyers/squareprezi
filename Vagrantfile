@@ -2,6 +2,13 @@
 # vi: set ft=ruby :
 
 Vagrant.configure(2) do |config|
+  # Supports local cache, don't wast bandwitdh
+  # vagrant plugin install vagrant-cachier
+  # https://github.com/fgrehm/vagrant-cachier 
+  if Vagrant.has_plugin?("vagrant-cachier")
+    config.cache.auto_detect = true
+  end
+
   # The most common configuration options are documented and commented below.
   # For a complete reference, please see the online documentation at
   # https://docs.vagrantup.com.
@@ -12,6 +19,11 @@ Vagrant.configure(2) do |config|
   
   config.vm.define :rails do |rails_config|
     rails_config.vm.network :private_network, :ip => '10.20.1.2'
+    rails_config.vm.hostname = "rails"
+    rails_config.vm.provision :puppet do |rpuppet|
+      rpuppet.manifests_path = "puppet/manifests"
+      rpuppet.module_path = "puppet/modules"
+      rpuppet.manifest_file = "rails.pp"
   end
 
 
