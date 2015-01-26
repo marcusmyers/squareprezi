@@ -21,7 +21,7 @@ Vagrant.configure(2) do |config|
     rails_config.vm.network :private_network, :ip => '10.20.1.2'
     rails_config.vm.hostname = "rails"
 
-    rails_config.vm.provision :shell, path:  "aptupdate.sh"
+#    rails_config.vm.provision :shell, path:  "aptupdate.sh"
 
     rails_config.vm.provision :puppet do |rpuppet|
       rpuppet.manifests_path = "puppet/manifests"
