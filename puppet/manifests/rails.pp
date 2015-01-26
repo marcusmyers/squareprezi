@@ -9,4 +9,5 @@ node rails {
   host { 'db':
     ip => '10.20.1.3',
   }
+
 }
