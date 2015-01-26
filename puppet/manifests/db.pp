@@ -9,4 +9,7 @@ node db {
     require => Class['apt'],
   }
 
+  host { 'rails':
+    ip => '10.20.1.2',
+  }
 }
