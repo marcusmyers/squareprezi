@@ -23,7 +23,8 @@ Vagrant.configure(2) do |config|
     rails_config.vm.provision :puppet do |rpuppet|
       rpuppet.manifests_path = "puppet/manifests"
       rpuppet.module_path = "puppet/modules"
-      rpuppet.manifest_file = "rails.pp"
+      rpuppet.manifest_file = "rails.pp" 
+    end
   end
 
 
