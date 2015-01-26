@@ -1,11 +1,13 @@
 node rails {
   class { 'apt':
     always_apt_update => true,
-    before            => Class['rbenv'],
+    notify            => Class['rbenv'],
   }
 
   class { 'rbenv':  }
-  class { '::mysql::client':  }
+  class { '::mysql::client':  
+    require => Class['rbenv'],
+  }
   rbenv::plugin { 'sstephenson/ruby-build': }
   rbenv::build { '2.0.0-p576': global => true }
 }
