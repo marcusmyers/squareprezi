@@ -3,7 +3,6 @@ node rails {
   include profiles::nodejs
   include profiles::rbenv
 
-
   host { 'db':
     ip => '10.20.1.3',
   }
