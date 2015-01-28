@@ -9,4 +9,14 @@ class profiles::nodejs {
     ensure => installed,
   }
 
+  file { '/usr/local/bin/node':
+    ensure => 'link',
+    target => '/usr/bin/node',
+  }
+
+  file { '/usr/local/bin/npm':
+    ensure => 'link',
+    target => '/usr/bin/npm',
+  }
+
 }
