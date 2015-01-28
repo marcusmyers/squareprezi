@@ -28,12 +28,17 @@ class profiles::nginx ($docroot='/home/vagrant/code/public') {
     ensure => installed,
   }
 
-  class { '::nginx': }
+  class { '::nginx': }->
+  package { 'nginx-extras': 
+    ensure => installed,
+  }
   nginx::resource::vhost { 'localhost':
-    www_root => "${docroot}",
+    www_root  => "${docroot}",
+    autoindex => 'false',
     vhost_cfg_append => {
       'passenger_enabled' => 'on',
       'passenger_ruby'    => '/usr/bin/ruby',
+      'rails_env'         => 'development',
     },
   }
 }

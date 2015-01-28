@@ -24,6 +24,7 @@ Vagrant.configure(2) do |config|
   config.vm.define :rails do |rails_config|
     rails_config.vm.network :private_network, :ip => '10.20.1.2'
     rails_config.vm.hostname = "rails"
+    rails_config.vm.network :forwarded_port, guest: 80, host: 8080     
 
     rails_config.vm.synced_folder '.', '/vagrant', type: 'nfs'      
     rails_config.vm.synced_folder './code', '/home/vagrant/code', type: 'nfs'

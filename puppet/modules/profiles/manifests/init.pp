@@ -4,4 +4,9 @@ class profiles {
   }
 
   Exec["apt-update"] -> Package <| |>
+
+  package { 'git':
+    ensure => installed,
+  }
+
 }
