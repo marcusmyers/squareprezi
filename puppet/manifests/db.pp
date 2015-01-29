@@ -1,9 +1,6 @@
 node db {
 
-
-  class { 'profiles::mysql::server':
-    root_password   => 'str0ngp4ssW0r6!',
-  }
+  include profiles::mysql::server
 
   host { 'rails':
     ip => '10.20.1.2',

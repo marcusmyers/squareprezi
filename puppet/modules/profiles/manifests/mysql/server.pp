@@ -1,8 +1,14 @@
-class profiles::mysql::server ( $root_password='secret', $db='samplerails',$user='railsuser',$password='new*data', $host='10.20.1.2' ) inherits profiles {
-  include ufw
+class profiles::mysql::server ( $db='samplerails',$user='railsuser',$password='new*data', $host='10.20.1.2' ) inherits profiles {
+
+  $override_options = {
+    'mysqld' => {
+      'bind-address' => '0.0.0.0',
+    }
+  }
 
   class { '::mysql::server':
-    root_password => "${root_password}",
+    override_options => $override_options,
+    restart          => true,
   }
 
   mysql::db { "${db}":
@@ -12,9 +18,4 @@ class profiles::mysql::server ( $root_password='secret', $db='samplerails',$user
     grant    => ['ALL'],
   }
 
-  # Allow the rails box access to mysql
-  ufw::allow { 'allow-mysql-from-rails':
-    port => 3306,
-    from => "${host}",
-  }
 }
