@@ -40,6 +40,7 @@ Vagrant.configure(2) do |config|
   config.vm.define :db do |db_config|
     db_config.vm.network :private_network, :ip => '10.20.1.3'
     db_config.vm.hostname = "db"
+    db_config.vm.network :forwarded_port, guest: 3306, host: 33066
 
     # Do we need this on the db server?
     db_config.vm.synced_folder '.', '/vagrant', type: 'nfs'
