@@ -16,19 +16,25 @@ Vagrant.configure(2) do |config|
   # boxes at https://atlas.hashicorp.com/search.
   config.vm.box = "ubuntu/trusty64"
 
+  # Set all boxes to have 2GB of ram
+  # and 2 CPUS
   config.vm.provider "virtualbox" do |v|
     v.memory = 2048
     v.cpus = 2
   end 
 
+  # Define our DB Server
   config.vm.define :db do |db_config|
+    # Set a private network ip
     db_config.vm.network :private_network, :ip => '10.20.1.3'
+
+    # Define Hostname
     db_config.vm.hostname = "db"
+
+    # Forwarded ports to the host
     db_config.vm.network :forwarded_port, guest: 3306, host: 33066
 
-    # Do we need this on the db server?
-    db_config.vm.synced_folder '.', '/vagrant', type: 'nfs'
-
+    # Provision our server using puppet
     db_config.vm.provision :puppet do |dbpuppet|
       dbpuppet.manifests_path = "puppet/manifests"
       dbpuppet.module_path = "puppet/modules"
@@ -36,63 +42,29 @@ Vagrant.configure(2) do |config|
     end 
   end
 
-
+  # Define our Ruby on Rails server
   config.vm.define :rails do |rails_config|
+    # Set a private network ip
     rails_config.vm.network :private_network, :ip => '10.20.1.2'
+
+    # Define hostname
     rails_config.vm.hostname = "rails"
+
+    # Forwarded ports to the host
     rails_config.vm.network :forwarded_port, guest: 80, host: 8080     
 
+
+    # Setup a couple of synced folders
     rails_config.vm.synced_folder '.', '/vagrant', type: 'nfs'      
     rails_config.vm.synced_folder './code', '/home/vagrant/code', type: 'nfs'
 
+    # Provision our server using puppet
     rails_config.vm.provision :puppet do |rpuppet|
       rpuppet.manifests_path = "puppet/manifests"
       rpuppet.module_path = "puppet/modules"
       rpuppet.manifest_file = "rails.pp" 
     end
   end
-
-
-  # Disable automatic box update checking. If you disable this, then
-  # boxes will only be checked for updates when the user runs
-  # `vagrant box outdated`. This is not recommended.
-  # config.vm.box_check_update = false
-
-  # Create a forwarded port mapping which allows access to a specific port
-  # within the machine from a port on the host machine. In the example below,
-  # accessing "localhost:8080" will access port 80 on the guest machine.
-  # config.vm.network "forwarded_port", guest: 80, host: 8080
-
-  # Create a private network, which allows host-only access to the machine
-  # using a specific IP.
-  # config.vm.network "private_network", ip: "192.168.33.10"
-
-  # Create a public network, which generally matched to bridged network.
-  # Bridged networks make the machine appear as another physical device on
-  # your network.
-  # config.vm.network "public_network"
-
-  # Share an additional folder to the guest VM. The first argument is
-  # the path on the host to the actual folder. The second argument is
-  # the path on the guest to mount the folder. And the optional third
-  # argument is a set of non-required options.
-  # config.vm.synced_folder "../data", "/vagrant_data"
-
-  # Provider-specific configuration so you can fine-tune various
-  # backing providers for Vagrant. These expose provider-specific options.
-  # Example for VirtualBox:
-  #
-  # config.vm.provider "virtualbox" do |vb|
-  #   # Display the VirtualBox GUI when booting the machine
-  #   vb.gui = true
-  #
-  #   # Customize the amount of memory on the VM:
-  #   vb.memory = 1024
-  #   vb.cpus = 2
-  # end
-  #
-  # View the documentation for the provider you are using for more
-  # information on available options.
 
   # Define a Vagrant Push strategy for pushing to Atlas. Other push strategies
   # such as FTP and Heroku are also available. See the documentation at
