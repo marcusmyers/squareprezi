@@ -19,7 +19,7 @@ Vagrant.configure(2) do |config|
   config.vm.provider "virtualbox" do |v|
     v.memory = 2048
     v.cpus = 2
-  end  
+  end 
 
   config.vm.define :rails do |rails_config|
     rails_config.vm.network :private_network, :ip => '10.20.1.2'
@@ -42,7 +42,7 @@ Vagrant.configure(2) do |config|
     db_config.vm.hostname = "db"
 
     # Do we need this on the db server?
-    #db_config.vm.synced_folder '.', '/vagrant', type: 'nfs'
+    db_config.vm.synced_folder '.', '/vagrant', type: 'nfs'
 
     db_config.vm.provision :puppet do |dbpuppet|
       dbpuppet.manifests_path = "puppet/manifests"
