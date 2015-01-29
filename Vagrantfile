@@ -21,6 +21,22 @@ Vagrant.configure(2) do |config|
     v.cpus = 2
   end 
 
+  config.vm.define :db do |db_config|
+    db_config.vm.network :private_network, :ip => '10.20.1.3'
+    db_config.vm.hostname = "db"
+    db_config.vm.network :forwarded_port, guest: 3306, host: 33066
+
+    # Do we need this on the db server?
+    db_config.vm.synced_folder '.', '/vagrant', type: 'nfs'
+
+    db_config.vm.provision :puppet do |dbpuppet|
+      dbpuppet.manifests_path = "puppet/manifests"
+      dbpuppet.module_path = "puppet/modules"
+      dbpuppet.manifest_file = "db.pp"
+    end 
+  end
+
+
   config.vm.define :rails do |rails_config|
     rails_config.vm.network :private_network, :ip => '10.20.1.2'
     rails_config.vm.hostname = "rails"
@@ -37,20 +53,6 @@ Vagrant.configure(2) do |config|
   end
 
 
-  config.vm.define :db do |db_config|
-    db_config.vm.network :private_network, :ip => '10.20.1.3'
-    db_config.vm.hostname = "db"
-    db_config.vm.network :forwarded_port, guest: 3306, host: 33066
-
-    # Do we need this on the db server?
-    db_config.vm.synced_folder '.', '/vagrant', type: 'nfs'
-
-    db_config.vm.provision :puppet do |dbpuppet|
-      dbpuppet.manifests_path = "puppet/manifests"
-      dbpuppet.module_path = "puppet/modules"
-      dbpuppet.manifest_file = "db.pp"
-    end 
-  end
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
   # `vagrant box outdated`. This is not recommended.
