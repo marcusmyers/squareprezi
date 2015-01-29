@@ -7,7 +7,9 @@ class profiles::appsetup {
   vcsrepo { '/home/vagrant/code':
     ensure   => present,
     provider => git,
-    source   => "https://github.com/marcusmyers/sample_app_rails_4.git"   
+    source   => "https://github.com/marcusmyers/sample_app_rails_4.git",
+    force    => true,   
+    require  => Exec['/usr/bin/gem install bundler'],
   }
 
   exec { 'bundle':
