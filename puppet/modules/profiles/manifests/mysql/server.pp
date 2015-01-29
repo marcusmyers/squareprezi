@@ -1,4 +1,4 @@
-class profiles::mysql::server ( $db='samplerails',$user='railsuser',$password='new*data', $host='10.20.1.2' ) inherits profiles {
+class profiles::mysql::server ( $root_password='secret',  $db='samplerails',$user='railsuser',$password='new*data', $host='10.20.1.2' ) inherits profiles {
 
   $override_options = {
     'mysqld' => {
@@ -7,6 +7,7 @@ class profiles::mysql::server ( $db='samplerails',$user='railsuser',$password='n
   }
 
   class { '::mysql::server':
+    root_password    => $root_password,
     override_options => $override_options,
     restart          => true,
   }
@@ -17,5 +18,14 @@ class profiles::mysql::server ( $db='samplerails',$user='railsuser',$password='n
     host     => "${host}",
     grant    => ['ALL'],
   }
+
+  mysql::db { "${db}_test":
+    user     => "${user}",
+    password => "${password}",
+    host     => "${host}",
+    grant    => ['ALL'],
+  }
+
+
 
 }
