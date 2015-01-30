@@ -21,6 +21,9 @@ class profiles::ruby ($version='2.0') inherits profiles {
     target => '/usr/bin/gem2.0',
   }
 
+  exec { '/usr/bin/gem install bundler':
+    require => File['/usr/bin/gem'],
+  }
 
   package { 'libsqlite3-dev':
     ensure => installed,

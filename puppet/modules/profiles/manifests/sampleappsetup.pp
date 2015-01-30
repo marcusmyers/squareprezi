@@ -1,8 +1,4 @@
-class profiles::appsetup {
-
-  exec { '/usr/bin/gem install bundler':
-    require => File['/usr/bin/gem'],
-  }
+class profiles::sampleappsetup {
 
   vcsrepo { '/home/vagrant/code':
     ensure   => present,

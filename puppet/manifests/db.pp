@@ -1,6 +1,6 @@
 node db {
 
-  include profiles::mysql::server
+  include roles::db 
 
   host { 'rails':
     ip => '10.20.1.2',
